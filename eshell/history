@@ -1,0 +1,20 @@
+cd ~
+cd dev/scratch/
+cd resources/public/bootstrap/
+make
+make
+make
+make
+make
+make
+make
+make
+make
+make watch
+sudo useradd -m -g dlstore-user -d /home/justin/dlstore/media/user-upload/bitchfuck bitchfuck
+passwd bitchfuck
+sudo passwd bitchfuck
+browser-repl
+lein trampoline cljsbuild repl-rhino
+cd ~/dlstore/
+lein trampoline cljsbuild repl-rhino

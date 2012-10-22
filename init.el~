@@ -1,0 +1,19 @@
+(require 'package)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+
+(load-theme 'zenburn t)
+
+(ido-mode)
+(tool-bar-mode -1) 
+(menu-bar-mode -1)
+
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+
+
+
+(shell)

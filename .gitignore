@@ -1,0 +1,13 @@
+session*
+anything-c-adaptive-history
+auto-save-list/*
+!auto-save-list/.gitignore
+modes/local/*
+!modes/local/.gitignore
+*.elc
+!hosts/.gitignore
+hosts/*
+tramp
+/elpa/archives/gnu/archive-contents
+/packages/archives/gnu/archive-contents
+*~
