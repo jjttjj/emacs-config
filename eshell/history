@@ -1,20 +1,128 @@
-cd ~
-cd dev/scratch/
-cd resources/public/bootstrap/
-make
-make
-make
-make
-make
-make
-make
-make
-make
-make watch
-sudo useradd -m -g dlstore-user -d /home/justin/dlstore/media/user-upload/bitchfuck bitchfuck
-passwd bitchfuck
-sudo passwd bitchfuck
-browser-repl
-lein trampoline cljsbuild repl-rhino
-cd ~/dlstore/
-lein trampoline cljsbuild repl-rhino
+ls new
+ls cur
+cd ../corrbotlive/
+l
+ls new
+ls cur
+mv cur/* new
+ls new
+mv cur/* new
+cat * | grep terence
+cat * | grep chambers
+cat * | grep a
+cat * | grep c
+cat cur/* grep chambers
+cat cur/* | grep chambers
+cat cur/* | grep cham
+cat cur/* | grep ch
+cat cur/* | grep terence
+ls
+cd new
+ls
+ls
+ls ../cur
+sudo service postfix restart
+dig mx americanassistants.com
+ls
+ls
+cd ..
+ls
+cd cur
+ls
+mv * ../new
+cd ..
+cd ..
+ls
+cd corrbotlive/
+ls
+ls nwe
+ls new
+ls cur
+cat
+cat *
+cd cur
+cat *
+cd ../..
+ls
+cd service/
+ls
+cd new
+ls
+dig mail.deliciouscake.me mx
+dig americanassistants.com mx
+dig mailamericanassistants.com mx
+dig mail.americanassistants.com mx
+dig mail.americanassistants.com mx
+dig mail.americanassistants.com mx
+sudo service postifix restart
+ls
+cd /var/spool/mail/virtual/service/
+ls
+cd new
+ls
+ll
+ls
+cd cur
+ls
+cd ../../cake
+ls new
+ls
+ls ne
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls
+ls new
+cd ../service/
+ls
+ls new
+ls new
+ls
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls new
+ls ../cake/new
+cat * ../cake/new
+cat ../cake/new/*
+ls ../cake/new/*
+ls ../cake/new/
+ls ../cake/new/
+ls ../cake/new/
+ls new
+ls new
+cd ..
+ls
+cd cake
+ls
+cd new
+ls
+cd ..
+cd .
+cd ..
+cd service/
+ls
+cd new
+ls
+ls
+ls
+ls

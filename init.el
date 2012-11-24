@@ -112,11 +112,11 @@
 
 
 ;;yasnippet stuff from here: https://gist.github.com/1628240 
-(add-to-list 'load-path
-"~/.emacs.d/elpa/yasnippet-0.6.1/snippets")
+;; (add-to-list 'load-path
+;; "~/.emacs.d/elpa/yasnippet-0.6.1/snippets")
 
 (setq hippie-expand-try-functions-list
-      '(yas/hippie-try-expand
+      '(;;yas/hippie-try-expand
         try-complete-file-name-partially
         try-expand-all-abbrevs
         try-expand-dabbrev
@@ -125,13 +125,13 @@
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
 
-(require 'yasnippet)
-(setq yas/root-directory "~/.emacs.d/elpa/yasnippet-0.6.1/snippets")
-(yas/load-directory yas/root-directory)
+;;(require 'yasnippet)
+;;(setq yas/root-directory "~/.emacs.d/elpa/yasnippet-0.6.1/snippets")
+;;(yas/load-directory yas/root-directory)
 
 ;; Helps when debugging which try-function expanded
 (setq hippie-expand-verbose t)
-(yas/global-mode 1)
+;;(yas/global-mode 1)
 
 (defvar smart-tab-using-hippie-expand t
   "turn this on if you want to use hippie-expand completion.")
@@ -172,9 +172,9 @@
 (define-key read-expression-map [(shift tab)] 'unexpand)
 
 ;; Replace yasnippets's TAB
-(add-hook 'yas/minor-mode-hook
-          (lambda () (define-key yas/minor-mode-map
-                       (kbd "TAB") 'smart-tab))) ; was yas/expand
+;; (add-hook 'yas/minor-mode-hook
+;;           (lambda () (define-key yas/minor-mode-map
+;;                        (kbd "TAB") 'smart-tab))) ; was yas/expand
 
 
 
@@ -205,3 +205,53 @@
 
 
 (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+(defun terminal-init-screen ()
+  "Terminal initialization function for GNU screen."
+  (when (boundp 'input-decode-map)
+    (define-key input-decode-map "^[[1;5C" [(control right)])
+    (define-key input-decode-map "^[[1;5D" [(control left)])))
+
+;;stolen from comments here:
+;;http://nex-3.com/posts/45-efficient-window-switching-in-emacs#comments
+
+(defvar real-keyboard-keys
+  '(("M-<up>"        . "\M-[1;3A")
+    ("M-<down>"      . "\M-[1;3B")
+    ("M-<right>"     . "\M-[1;3C")
+    ("M-<left>"      . "\M-[1;3D")
+    ("C-<return>"    . "\C-j")
+    ("C-<delete>"    . "\M-[3;5~")
+    ("C-<up>"        . "\M-[1;5A")
+    ("C-<down>"      . "\M-[1;5B")
+    ("C-<right>"     . "\M-[1;5C")
+    ("C-<left>"      . "\M-[1;5D"))
+  "An assoc list of pretty key strings
+and their terminal equivalents.")
+
+(defun key (desc)
+  (or (and window-system (read-kbd-macro desc))
+      (or (cdr (assoc desc real-keyboard-keys))
+	  (read-kbd-macro desc))))
+
+(global-set-key (key "M-<left>") 'windmove-left)          ; move to left windnow
+(global-set-key (key "M-<right>") 'windmove-right)        ; move to right window
+(global-set-key (key "M-<up>") 'windmove-up)              ; move to upper window
+(global-set-key (key "M-<down>") 'windmove-down)          ; move to downer window
+
+
+
+(require 'inline-string-rectangle)
+(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
+(require 'mark-more-like-this)
+(global-set-key (kbd "C-<") 'mark-previous-like-this)
+(global-set-key (kbd "C->") 'mark-next-like-this)
+(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+(global-set-key (kbd "C-*") 'mark-all-like-this)
+
+(add-hook 'sgml-mode-hook
+	            (lambda ()
+		                  (require 'rename-sgml-tag)
+				              (define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)))
+
