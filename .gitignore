@@ -11,3 +11,7 @@ tramp
 /elpa/archives/gnu/archive-contents
 /packages/archives/gnu/archive-contents
 *~
+eshell/history
+eshell/lastdir
+url/cookies
+tramp

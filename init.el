@@ -46,8 +46,12 @@
 
 (require 'paredit)
 (require 'rainbow-delimiters)
+(require 'nrepl)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook 'clojure-test-mode)
+(add-hook 'clojure-mode-hook 'nrepl-interaction-mode)
+
 
 (add-to-list 'auto-mode-alist '("\\.cljx\\'" . clojure-mode))
 
@@ -206,52 +210,76 @@
 
 (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
-(defun terminal-init-screen ()
-  "Terminal initialization function for GNU screen."
-  (when (boundp 'input-decode-map)
-    (define-key input-decode-map "^[[1;5C" [(control right)])
-    (define-key input-decode-map "^[[1;5D" [(control left)])))
+;; (defun terminal-init-screen ()
+;;   "Terminal initialization function for GNU screen."
+;;   (when (boundp 'input-decode-map)
+;;     (define-key input-decode-map "^[[1;5C" [(control right)])
+;;     (define-key input-decode-map "^[[1;5D" [(control left)])))
 
 ;;stolen from comments here:
 ;;http://nex-3.com/posts/45-efficient-window-switching-in-emacs#comments
 
-(defvar real-keyboard-keys
-  '(("M-<up>"        . "\M-[1;3A")
-    ("M-<down>"      . "\M-[1;3B")
-    ("M-<right>"     . "\M-[1;3C")
-    ("M-<left>"      . "\M-[1;3D")
-    ("C-<return>"    . "\C-j")
-    ("C-<delete>"    . "\M-[3;5~")
-    ("C-<up>"        . "\M-[1;5A")
-    ("C-<down>"      . "\M-[1;5B")
-    ("C-<right>"     . "\M-[1;5C")
-    ("C-<left>"      . "\M-[1;5D"))
-  "An assoc list of pretty key strings
+(when (not (display-graphic-p))
+  (defvar real-keyboard-keys
+    '(("M-<up>"        . "\M-[1;3A")
+      ("M-<down>"      . "\M-[1;3B")
+      ("M-<right>"     . "\M-[1;3C")
+      ("M-<left>"      . "\M-[1;3D")
+      ("C-<return>"    . "\C-j")
+      ("C-<delete>"    . "\M-[3;5~")
+      ("C-<up>"        . "\M-[1;5A")
+      ("C-<down>"      . "\M-[1;5B")
+      ("C-<right>"     . "\M-[1;5C")
+      ("C-<left>"      . "\M-[1;5D"))
+    "An assoc list of pretty key strings
 and their terminal equivalents.")
 
-(defun key (desc)
-  (or (and window-system (read-kbd-macro desc))
-      (or (cdr (assoc desc real-keyboard-keys))
-	  (read-kbd-macro desc))))
+  (defun key (desc)
+    (or (and window-system (read-kbd-macro desc))
+	(or (cdr (assoc desc real-keyboard-keys))
+	    (read-kbd-macro desc))))
+
+  
+  )
 
 (global-set-key (key "M-<left>") 'windmove-left)          ; move to left windnow
 (global-set-key (key "M-<right>") 'windmove-right)        ; move to right window
 (global-set-key (key "M-<up>") 'windmove-up)              ; move to upper window
-(global-set-key (key "M-<down>") 'windmove-down)          ; move to downer window
+(global-set-key (key "M-<down>") 'windmove-down) 
+
+;; (require 'inline-string-rectangle)
+;; (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+
+;; (require 'mark-more-like-this)
+;; (global-set-key (kbd "C-<") 'mark-previous-like-this)
+;; (global-set-key (kbd "C->") 'mark-next-like-this)
+;; (global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
+;; (global-set-key (kbd "C-*") 'mark-all-like-this)
+
+;; (add-hook 'sgml-mode-hook
+;; 	            (lambda ()
+;; 		                  (require 'rename-sgml-tag)
+;; 				              (define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)))
+
+(fset 'next-double-newline
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ("
+
+" 0 "%d")) arg)))
+
+(fset 'previous-double-newline
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ("
+
+[" 0 "%d")) arg)))
 
 
+;; (key-chord-define-global "fg" 'forward-char)
+;; (key-chord-define-global "fd" 'forward-char)
 
-(require 'inline-string-rectangle)
-(global-set-key (kbd "C-x r t") 'inline-string-rectangle)
+;; (key-chord-define-global "hm" 'next-double-newline)
+;; (key-chord-define-global "hu" 'previous-double-newline)
 
-(require 'mark-more-like-this)
-(global-set-key (kbd "C-<") 'mark-previous-like-this)
-(global-set-key (kbd "C->") 'mark-next-like-this)
-(global-set-key (kbd "C-M-m") 'mark-more-like-this) ; like the other two, but takes an argument (negative is previous)
-(global-set-key (kbd "C-*") 'mark-all-like-this)
+;; (key-chord-mode)
 
-(add-hook 'sgml-mode-hook
-	            (lambda ()
-		                  (require 'rename-sgml-tag)
-				              (define-key sgml-mode-map (kbd "C-c C-r") 'rename-sgml-tag)))
 
+(fset 'require-user-model
+   "(require '[corr.models.user :as user])\C-m")
