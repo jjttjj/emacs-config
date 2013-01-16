@@ -49,8 +49,14 @@
 (require 'nrepl)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook 'clojure-test-mode)
+
+(require 'expectations-mode)
+
+;;(add-hook 'clojure-mode-hook 'clojure-test-mode)
 (add-hook 'clojure-mode-hook 'nrepl-interaction-mode)
+(setq nrepl-popup-stacktraces nil)
+(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
 
 
 (add-to-list 'auto-mode-alist '("\\.cljx\\'" . clojure-mode))
@@ -100,10 +106,16 @@
 ;;of emacs before i have the need for usign emacs shell
 ;;(shell)
 
-
+;;http://stackoverflow.com/questions/13002685/kill-previous-nrepl-sessions-when-nrepl-jack-in-called
+(defun my-nrepl-jack-in ()
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (when (string-prefix-p "*nrepl" (buffer-name buffer))
+      (kill-buffer buffer)))
+  (nrepl-jack-in nil))
 
 ;;;;;;my stuff;;;;
-(global-set-key (kbd "C-c C-j") 'clojure-jack-in)
+(global-set-key (kbd "C-c C-j") 'my-nrepl-jack-in)
 (global-set-key (kbd "C-c C-r") 'rename-buffer)
 
 
@@ -219,33 +231,36 @@
 ;;stolen from comments here:
 ;;http://nex-3.com/posts/45-efficient-window-switching-in-emacs#comments
 
-(when (not (display-graphic-p))
-  (defvar real-keyboard-keys
-    '(("M-<up>"        . "\M-[1;3A")
-      ("M-<down>"      . "\M-[1;3B")
-      ("M-<right>"     . "\M-[1;3C")
-      ("M-<left>"      . "\M-[1;3D")
-      ("C-<return>"    . "\C-j")
-      ("C-<delete>"    . "\M-[3;5~")
-      ("C-<up>"        . "\M-[1;5A")
-      ("C-<down>"      . "\M-[1;5B")
-      ("C-<right>"     . "\M-[1;5C")
-      ("C-<left>"      . "\M-[1;5D"))
-    "An assoc list of pretty key strings
+(if (not (display-graphic-p))
+    (progn
+      (defvar real-keyboard-keys
+	'(("M-<up>"        . "\M-[1;3A")
+	  ("M-<down>"      . "\M-[1;3B")
+	  ("M-<right>"     . "\M-[1;3C")
+	  ("M-<left>"      . "\M-[1;3D")
+	  ("C-<return>"    . "\C-j")
+	  ("C-<delete>"    . "\M-[3;5~")
+	  ("C-<up>"        . "\M-[1;5A")
+	  ("C-<down>"      . "\M-[1;5B")
+	  ("C-<right>"     . "\M-[1;5C")
+	  ("C-<left>"      . "\M-[1;5D"))
+	"An assoc list of pretty key strings
 and their terminal equivalents.")
-
-  (defun key (desc)
+        (defun key (desc)
     (or (and window-system (read-kbd-macro desc))
 	(or (cdr (assoc desc real-keyboard-keys))
 	    (read-kbd-macro desc))))
-
+	(global-set-key (key "M-<left>") 'windmove-left)          ; move to left windnow
+	(global-set-key (key "M-<right>") 'windmove-right)        ; move to right window
+	(global-set-key (key "M-<up>") 'windmove-up)              ; move to upper window
+	(global-set-key (key "M-<down>") 'windmove-down))
   
-  )
+)
 
-(global-set-key (key "M-<left>") 'windmove-left)          ; move to left windnow
-(global-set-key (key "M-<right>") 'windmove-right)        ; move to right window
-(global-set-key (key "M-<up>") 'windmove-up)              ; move to upper window
-(global-set-key (key "M-<down>") 'windmove-down) 
+  (windmove-default-keybindings)
+  (setq windmove-wrap-around t)
+
+ 
 
 ;; (require 'inline-string-rectangle)
 ;; (global-set-key (kbd "C-x r t") 'inline-string-rectangle)
@@ -283,3 +298,41 @@ and their terminal equivalents.")
 
 (fset 'require-user-model
    "(require '[corr.models.user :as user])\C-m")
+
+(smex-initialize)
+
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+
+;;
+;; ace jump mode major function
+;; 
+(add-to-list 'load-path "/full/path/where/ace-jump-mode.el/in/")
+(autoload
+  'ace-jump-mode
+  "ace-jump-mode"
+  "Emacs quick move minor mode"
+  t)
+;; you can select the key you prefer to
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+
+
+;; 
+;; enable a more powerful jump back function from ace jump mode
+;;
+(autoload
+  'ace-jump-mode-pop-mark
+  "ace-jump-mode"
+  "Ace jump back:-)"
+  t)
+(eval-after-load "ace-jump-mode"
+  '(ace-jump-mode-enable-mark-sync))
+(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+
+
+
