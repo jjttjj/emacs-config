@@ -6,6 +6,14 @@
 
 (load-theme 'zenburn t)
 
+;;(load-theme 'solarized-light t)
+
+;;(set-default-font "Inconsolata-12")
+;;(set-face-attribute 'default nil :font "Inconsolata-12")
+
+
+
+
 (ido-mode 1)
 (show-paren-mode 1)
 ;;(smart-tab-mode 1)
@@ -49,6 +57,7 @@
 (require 'nrepl)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook 'hs-org/minor-mode)
 
 (require 'expectations-mode)
 
@@ -335,4 +344,33 @@ and their terminal equivalents.")
 
 
 
+
+(defun my-html-mode-hook ()
+  (setq tab-width 4)
+  (setq indent-tabs-mode t)
+  (define-key html-mode-map (kbd "<tab>") 'my-insert-tab)
+  (define-key html-mode-map (kbd "C->") 'sgml-close-tag))
+
+(defun my-insert-tab (&optional arg)
+  (interactive "P")
+  (insert-tab arg))
+
+(add-hook 'html-mode-hook 'my-html-mode-hook)
+
+(add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
+
+(setq js-indent-level 2)
+
+(add-to-list 'load-path "~/.emacs.d/elpa/hideshow-org")
+
+(require 'hideshow-org)
+
+
+(if window-system
+    (progn
+      (global-unset-key "\C-x\C-z")
+      (global-unset-key "\C-z"))) 
+
+(require 'r-autoyas)
+(add-hook 'ess-mode-hook 'r-autoyas-ess-activate)
 

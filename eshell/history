@@ -1,66 +1,128 @@
-cd ~
-cd dev/scratch/
-cd resources/public/bootstrap/
-make
-make
-make
-make
-make
-make
-make
-make
-make
-make watch
-sudo useradd -m -g dlstore-user -d /home/justin/dlstore/media/user-upload/bitchfuck bitchfuck
-passwd bitchfuck
-sudo passwd bitchfuck
-browser-repl
-lein trampoline cljsbuild repl-rhino
-cd ~/dlstore/
-lein trampoline cljsbuild repl-rhino
-cd ~/corr
-cd ~/dev
-lein new quartz-test
-cd corr/
-lein clean
-lein run
-lein deps
-lein clean
-lein deps
-lein clean
-lein deps
-lein clean
-lein clean
-lein clean
-cd dev
-lein new crawl
-cd .emacs.d
-cd ~/.emacs.d
-mv elpa/magit-1.2.0/ elpa/magit-1.2.0-backup
-lein new corr2
-rm corr2
-rm -rf corr2
-lein new corr1
-cd dev
-lein noir new webthing
-lein new webthing
-cd webthing/
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein new help
+lein help new
+lein new compojure cljq-upload
+mv cljq-upload/ ..
+cd ../cljq-upload/
+lein ring server
+lein ring server
 lein ring server
 lein deps
 lein ring server
+lein clean
+lein deps
+lein clean
 lein ring server
 lein ring server
 lein ring server
 lein ring server
-lein new luminus testlum +bootstrap +postgres +site
-mv testlum ..
-cd ../testlum
+q
+lein ring server
+lein ring server
+cd ~/dev/cljq-upload/
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein compojure new
+lein compojure new file-test
 cd ..
-rm -rf testlum
-lein new luminus testlum +bootstrap +postgres +site +cljs
-cd testlum/
+lein  new compojure test-file
+lein ring server
+cd test-file
+lein ring server
+cd ../cljq-upload/
+lein ring server
+cd ../test-file/
+lein ring run
+lein ring server
+cd ../cljq-upload/
+lein ring server
+cd ..
+rm -rf test-file/
+cd cljq-upload/ ;lein ring server
 lein ring server
 lein ring server
 lein ring server
-cd ~/dev/testlum/
 lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+cd -
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+Created new window in existing brod ../dlwser session.
+cd ../dl
+cd ../dl
+lein ring server
+lein ring server
+cd ../cljq-upload/
+lein ring run
+lein ring server
+lein ring server
+cd ..
+cd dl
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+Created new window in existing brod ../dlwser session.
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ring server
+lein ppring
+lein pprint
+lein print
+lein task
+lein help
+lein new blah
+cd blah
+cd ~/dev
+lein help template
+lein help
+lein help new
+cd scratch
+lein new template firsttemplate
+cd ~/dev
+lein new template justintemplate
+cd ~
+cd dev
+cd scratch/
+lein new incantest
+cd ~/dev
+git cone https://github.com/inzi/snapshot_ttt_2_12_13.git
+git clone https://github.com/inzi/snapshot_ttt_2_12_13.git
