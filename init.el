@@ -1,6 +1,10 @@
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (package-initialize)
 
 
@@ -11,21 +15,21 @@
 ;;(set-default-font "Inconsolata-12")
 ;;(set-face-attribute 'default nil :font "Inconsolata-12")
 
-
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 
 (ido-mode 1)
 (show-paren-mode 1)
 ;;(smart-tab-mode 1)
 
-(tool-bar-mode -1) 
-(menu-bar-mode -1)
-
 ;;(transient-mark-mode 0)
 
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(electric-indent-mode +1)
 
 ;;http://eschulte.me/emacs-starter-kit/starter-kit-bindings.html
 (global-set-key (kbd "C-x \\") 'align-regexp)
@@ -36,6 +40,9 @@
 
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(global-set-key (kbd "C-x M-f") 'ffip)
+
 
 ;;http://clojure.roboloco.net/?tag=paredit
 ;; Create backup files in .emacs-backup instead of everywhere
@@ -57,11 +64,11 @@
 (require 'nrepl)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook 'hs-org/minor-mode)
+;;(add-hook 'clojure-mode-hook 'hs-org/minor-mode)
 
 (require 'expectations-mode)
 
-;;(add-hook 'clojure-mode-hook 'clojure-test-mode)
+(add-hook 'clojure-mode-hook 'clojure-test-mode)
 (add-hook 'clojure-mode-hook 'nrepl-interaction-mode)
 (setq nrepl-popup-stacktraces nil)
 (add-hook 'nrepl-mode-hook 'paredit-mode)
@@ -77,6 +84,38 @@
 
 ;; cycle through buffers
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
+
+
+(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . sgml-mode))
+
+(add-hook 'php-mode-hook 'zencoding-mode)
+
+(require 'php+-mode)
+(php+-mode-setup)
+
+
+
+;; ;;(add-to-list 'load-path "~/path-to/auto-complete")
+;; ; Load the default configuration
+;; (require 'auto-complete-config)
+;; ; Make sure we can find the dictionaries
+;; (add-to-list 'ac-dictionary-directories "~/emacs/auto-complete/dict")
+;; ; Use dictionaries by default
+;; (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
+;; (global-auto-complete-mode t)
+;; ; Start auto-completion after 2 characters of a word
+;; (setq ac-auto-start 2)
+;; ; case sensitivity is important when finding matches
+;; (setq ac-ignore-case nil)
+
+;;doesn't work?
+(eval-after-load "sgml-mode"
+  '(progn
+     (require 'tagedit)
+     (tagedit-add-paredit-like-keybindings)
+     (add-hook 'html-mode-hook (lambda () (tagedit-mode 1)))))
+
 
 ;; use hippie-expand instead of dabbrev
 ;;(define-key read-expression-map [(tab)] 'hippie-expand)
@@ -116,15 +155,35 @@
 ;;(shell)
 
 ;;http://stackoverflow.com/questions/13002685/kill-previous-nrepl-sessions-when-nrepl-jack-in-called
-(defun my-nrepl-jack-in ()
+;; (defun my-nrepl-jack-in ()
+;;   (interactive)
+;;   (dolist (buffer (buffer-list))
+;;     (when (string-prefix-p "*nrepl" (buffer-name buffer))
+;;       (kill-buffer buffer)))
+;;   (nrepl-jack-in nil))
+
+;; Disable prompt on killing buffer with a process
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
+
+(defun nrepl-kill ()
+  "Kill all nrepl buffers and processes"
   (interactive)
+  (when (get-process "nrepl-server")
+    (set-process-sentinel (get-process "nrepl-server")
+                          (lambda (proc evt) t)))
   (dolist (buffer (buffer-list))
     (when (string-prefix-p "*nrepl" (buffer-name buffer))
-      (kill-buffer buffer)))
+      (kill-buffer buffer))))
+
+(defun nrepl-me ()
+  (interactive)
+  (nrepl-kill)
   (nrepl-jack-in nil))
 
 ;;;;;;my stuff;;;;
-(global-set-key (kbd "C-c C-j") 'my-nrepl-jack-in)
+(global-set-key (kbd "C-c C-j") 'nrepl-me)
 (global-set-key (kbd "C-c C-r") 'rename-buffer)
 
 
@@ -361,9 +420,9 @@ and their terminal equivalents.")
 
 (setq js-indent-level 2)
 
-(add-to-list 'load-path "~/.emacs.d/elpa/hideshow-org")
+;;(add-to-list 'load-path "~/.emacs.d/elpa/hideshow-org")
 
-(require 'hideshow-org)
+;;(require 'hideshow-org)
 
 
 (if window-system
@@ -374,3 +433,16 @@ and their terminal equivalents.")
 (require 'r-autoyas)
 (add-hook 'ess-mode-hook 'r-autoyas-ess-activate)
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(show-paren-mode t)
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Inconsolata" :foundry "unknown" :slant normal :weight normal :height 128 :width normal)))))

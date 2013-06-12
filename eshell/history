@@ -1,128 +1,24 @@
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein new help
-lein help new
-lein new compojure cljq-upload
-mv cljq-upload/ ..
-cd ../cljq-upload/
-lein ring server
-lein ring server
-lein ring server
+cd ..
+vendor/phpunit/phpunit
+vendor/bin/phpunit
+cd ../..
+cd ..
+vendor/bin/phpunit
+cp ~/dev/dl1/js/main.js .
+ls
+cd ../../
+cd ../src
+cd clj/dl54/views/
+cd templates/
+ls
+rm bottom.clj.html home.clj.html top.clj.html 
+ls
+cd ~/dev/scratch
+ls
+ls zach
+rm -rf zach
+lein new calctest
+cd calctest/
 lein deps
-lein ring server
-lein clean
 lein deps
-lein clean
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-q
-lein ring server
-lein ring server
-cd ~/dev/cljq-upload/
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein compojure new
-lein compojure new file-test
-cd ..
-lein  new compojure test-file
-lein ring server
-cd test-file
-lein ring server
-cd ../cljq-upload/
-lein ring server
-cd ../test-file/
-lein ring run
-lein ring server
-cd ../cljq-upload/
-lein ring server
-cd ..
-rm -rf test-file/
-cd cljq-upload/ ;lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-cd -
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-Created new window in existing brod ../dlwser session.
-cd ../dl
-cd ../dl
-lein ring server
-lein ring server
-cd ../cljq-upload/
-lein ring run
-lein ring server
-lein ring server
-cd ..
-cd dl
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-Created new window in existing brod ../dlwser session.
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ring server
-lein ppring
-lein pprint
-lein print
-lein task
-lein help
-lein new blah
-cd blah
-cd ~/dev
-lein help template
-lein help
-lein help new
-cd scratch
-lein new template firsttemplate
-cd ~/dev
-lein new template justintemplate
-cd ~
-cd dev
-cd scratch/
-lein new incantest
-cd ~/dev
-git cone https://github.com/inzi/snapshot_ttt_2_12_13.git
-git clone https://github.com/inzi/snapshot_ttt_2_12_13.git
+lein deps
